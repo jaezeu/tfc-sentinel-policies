@@ -1,0 +1,35 @@
+# Import helper libraries
+import "tfplan-functions" as plan
+import "aws-functions" as aws
+
+# AWS resource types we want enforced
+param resource_types default [
+  "aws_lambda_function",
+  "aws_apigatewayv2_api",
+  "aws_dynamodb_table"
+]
+
+# Enterprise mandatory tags
+param mandatory_tags default [
+  "Environment",
+  "BusinessUnit",
+  "Application",
+  "Owner"
+]
+
+# Find resources with standard tag structures
+allAWSResourcesWithStandardTags =
+    aws.find_resources_with_standard_tags(resource_types)
+
+# Identify violations
+violatingAWSResources =
+    plan.filter_attribute_not_contains_list(
+        allAWSResourcesWithStandardTags,
+        "tags",
+        mandatory_tags,
+        true
+    )
+
+main = rule {
+  length(violatingAWSResources["messages"]) is 0
+}
