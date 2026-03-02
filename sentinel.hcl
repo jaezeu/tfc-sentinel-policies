@@ -1,9 +1,9 @@
 policy "required-tags" {
   source            = "./required-tags.sentinel"
-  enforcement_level = "soft-mandatory"
+  enforcement_level = "hard-mandatory"
 }
 
-policy "dynamodb-pitr-prod" {
-  source            = "./dynamodb-pitr-prod.sentinel"
-  enforcement_level = "hard-mandatory"
+policy "cost-limits" {
+  source            = "./cost-limits.sentinel"
+  enforcement_level = "advisory"
 }

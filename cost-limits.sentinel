@@ -1,0 +1,18 @@
+import "tfrun"
+
+# Maximum allowed monthly cost increase
+max_monthly_increase = 10
+
+# Get the cost estimate safely
+delta_raw = tfrun.cost_estimate.delta_monthly_cost else "0"
+
+# Convert to number
+delta = float(delta_raw)
+
+# Log the cost change
+print("Monthly cost change: $" + string(delta))
+
+# Policy passes if increase is within threshold
+main = rule {
+  delta <= max_monthly_increase
+}
